@@ -25,9 +25,7 @@ export const App = () => {
   //   localStorage.setItem("todos", JSON.stringify(todos));
   // }, [todos]);
 
-  const deleteTodo = (idDeleted) => {
-    // setTodos((prev) => prev.filter(({ id }) => id !== idDeleted));
-  };
+
 
   return (
     <>
@@ -47,7 +45,7 @@ export const App = () => {
                     id={todo.id}
                     text={todo.text}
                     counter={index + 1}
-                    onClick={deleteTodo}
+                    // onClick={deleteTodo}
                   />
                 </GridItem>
               ))}
