@@ -1,5 +1,6 @@
 import { Component } from 'react';
 import { nanoid } from 'nanoid';
+import { useState, useEffect } from 'react';
 
 import {
   Container,
@@ -12,7 +13,61 @@ import {
   Todo,
 } from 'components';
 
-export class App extends Component {
+export const App = () => {
+  const [todos, setTodos] = useState(JSON.parse(localStorage.getItem('todos')) || []);
+  useEffect(() => {
+
+      localStorage.setItem("todos", JSON.stringify(todos));
+
+  }, [todos]);
+
+  const addTodo = text => {
+    const todo = {
+      id: nanoid(),
+      text,
+    };
+    setTodos((prev) => [...prev, todo]);
+  };
+
+
+  const handleSubmit = data => {
+    addTodo(data);
+  };
+
+  const  deleteTodo = idDeleted => {
+    setTodos(prev => prev.filter(({id}) => id !== idDeleted));
+  };
+
+  return (
+    <>
+      <Header />
+      <Section>
+        <Container>
+          <SearchForm onSubmit={handleSubmit} />
+          {todos.length === 0 && (
+            <Text textAlign="center">There are no any todos ... </Text>
+          )}
+
+          <Grid>
+            {todos.length > 0 &&
+              todos.map((todo, index) => (
+                <GridItem key={todo.id}>
+                  <Todo
+                    id={todo.id}
+                    text={todo.text}
+                    counter={index + 1}
+                    onClick={deleteTodo}
+                  />
+                </GridItem>
+              ))}
+          </Grid>
+        </Container>
+      </Section>
+    </>
+  );
+}
+
+export class AppOld extends Component {
   state = {
     todos: [],
   };
